@@ -7,6 +7,6 @@ Add Extra Options to ACF Field Group.
 - My ID
     - Use as a secondary ID. It will not appear in the HTML source.
 - Additional Class
-    Add classes to metabox. Multiple classes should be separated by spaces.
+    - Add classes to metabox. Multiple classes should be separated by spaces.
 - Hide On Screen
-    Hide this field group on screen.
+    - Hide this field group on screen.
