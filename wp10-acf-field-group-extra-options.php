@@ -3,7 +3,7 @@
 Plugin Name: WP10 ACF Field Group Extra Options (ACF AddOn)
 Plugin URI:
 Description: Add Extra Options to ACF Field Group.
-Version: 0.3
+Version: 0.3.1
 Author: PRESSMAN Hiroshi
 Author URI:
 Text Domain: wp10-acf-field-group-extra-options
@@ -91,7 +91,7 @@ class Wp10_Acf_Field_Group_Extra_Options {
 		add_action( 'acf/add_meta_boxes', array( $this, 'add_classes_to_field_group' ), 11, 3 );
 
 		// Sanitize input text before saving.
-		add_action( 'acf/update_field_group', [ $this, 'sanitize_input_text_before_saving' ] );
+		add_action( 'acf/update_field_group', array( $this, 'sanitize_input_text_before_saving' ) );
 	}
 
 	/**
@@ -101,16 +101,18 @@ class Wp10_Acf_Field_Group_Extra_Options {
 	 * @return void
 	 */
 	public function sanitize_input_text_before_saving( array $field_group ):void {
-		$key_list_2_be_sanitized = [ $this->key_for_my_id, $this->key_for_additional_class ];
+		$key_list_2_be_sanitized = array( $this->key_for_my_id, $this->key_for_additional_class );
 
 		foreach ( $key_list_2_be_sanitized as $key ) {
-			$_key                 = $this->get_option_key( $key );
-			$field_group[ $_key ] = $this->sanitize_text( $field_group[ $_key ] );
+			$_key = $this->get_option_key( $key );
+			if ( isset( $field_group[ $_key ] ) && '' !== $field_group[ $_key ] ) {
+				$field_group[ $_key ] = $this->sanitize_text( $field_group[ $_key ] );
+			}
 		}
 
-		remove_action( 'acf/update_field_group', [ $this, 'sanitize_input_text_before_saving' ] );
+		remove_action( 'acf/update_field_group', array( $this, 'sanitize_input_text_before_saving' ) );
 		acf_update_field_group( $field_group );// * @since   5.7.10
-		add_action( 'acf/update_field_group', [ $this, 'sanitize_input_text_before_saving' ] );
+		add_action( 'acf/update_field_group', array( $this, 'sanitize_input_text_before_saving' ) );
 	}
 
 	/**
